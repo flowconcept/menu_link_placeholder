@@ -1,0 +1,49 @@
+<?php
+
+/**
+ * @file
+ * Contains menu_link_placeholder.module.
+ */
+
+
+use Drupal\Core\Field\BaseFieldDefinition;
+
+function menu_link_placeholder_entity_type_build(array &$entity_types) {
+  if (isset($entity_types['menu_link_content'])) {
+    $entity_types['menu_link_content']->setClass('Drupal\menu_link_placeholder\Entity\MenuLinkContent');
+  }
+}
+
+function menu_link_placeholder_entity_base_field_info_alter(&$fields, \Drupal\Core\Entity\EntityTypeInterface $entity_type) {
+  if ($entity_type->id() == 'menu_link_content') {
+    $fields['link']->setRequired(FALSE);
+  }
+}
+
+/**
+ * Implementation of hook_preprocess_HOOK().
+ */
+function menu_link_placeholder_preprocess_menu(&$variables) {
+  if ($variables['theme_hook_original'] == 'menu__main') {
+    foreach ($variables['items'] as $menu_link_key => &$menu_link) {
+      _menu_link_placeholder_preprocess_menu_link($menu_link);
+    }
+  }
+}
+
+/**
+ * Recursive menu_link item fixer.
+ */
+function _menu_link_placeholder_preprocess_menu_link(&$menu_link) {
+  if (method_exists($menu_link['original_link'], 'hasLink')) {
+    if(!$menu_link['original_link']->hasLink()) {
+      $menu_link['no_link'] = TRUE;
+    }
+  }
+
+  if (isset($menu_link['below']) && count($menu_link['below'])) {
+    foreach ($menu_link['below'] as &$child_menu_link) {
+      _menu_link_placeholder_preprocess_menu_link($child_menu_link);
+    }
+  }
+}

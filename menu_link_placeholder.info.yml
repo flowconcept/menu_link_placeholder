@@ -1,0 +1,8 @@
+name: menu_link_placeholder
+type: module
+description: Menu link placeholder
+core: 8.x
+package: Other
+dependencies:
+  - menu_ui
+
