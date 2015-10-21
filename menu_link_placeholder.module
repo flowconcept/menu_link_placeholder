@@ -10,6 +10,7 @@ use Drupal\Core\Field\BaseFieldDefinition;
 
 function menu_link_placeholder_entity_type_build(array &$entity_types) {
   if (isset($entity_types['menu_link_content'])) {
+    $entity_types['menu_link_content']->set('originalClass', 'Drupal\menu_link_content\Entity\MenuLinkContent');
     $entity_types['menu_link_content']->setClass('Drupal\menu_link_placeholder\Entity\MenuLinkContent');
   }
 }

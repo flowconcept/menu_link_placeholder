@@ -7,13 +7,6 @@
 
 namespace Drupal\menu_link_placeholder\Plugin\Menu;
 
-use Drupal\Component\Plugin\Exception\PluginException;
-use Drupal\Component\Utility\SafeMarkup;
-use Drupal\Core\Entity\EntityManagerInterface;
-use Drupal\Core\Language\LanguageManagerInterface;
-use Drupal\Core\Menu\MenuLinkBase;
-use Drupal\Core\Plugin\ContainerFactoryPluginInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use Drupal\menu_link_content\Plugin\Menu\MenuLinkContent as OriginalMenuLinkContent;
 use Drupal\Core\Url;
 
@@ -42,7 +35,8 @@ class MenuLinkContent extends OriginalMenuLinkContent {
       }
     }
     else {
-      return $this->getEntity()->urlInfo();
+      // Because the edit link has custom access control we need to return a link the anon user has access to.
+      return Url::fromUserInput('/');
     }
   }
 }

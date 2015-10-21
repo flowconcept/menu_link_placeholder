@@ -7,14 +7,8 @@
 
 namespace Drupal\menu_link_placeholder\Entity;
 
-use Drupal\Core\Entity\ContentEntityBase;
-use Drupal\Core\Entity\EntityChangedTrait;
-use Drupal\Core\Entity\EntityStorageInterface;
-use Drupal\Core\Entity\EntityTypeInterface;
-use Drupal\Core\Field\BaseFieldDefinition;
-use Drupal\link\LinkItemInterface;
-use Drupal\menu_link_content\MenuLinkContentInterface;
 use Drupal\menu_link_content\Entity\MenuLinkContent as OriginalMenuLinkContent;
+
 /**
  * Defines the menu link content entity class.
  *
@@ -59,49 +53,5 @@ class MenuLinkContent extends OriginalMenuLinkContent {
     if (isset($this->link->first()->uri)) {
       return $this->link->first()->getUrl();
     }
-  }
-
-  /**
-   * {@inheritdoc}
-   */
-  public function getPluginDefinition() {
-    $definition = array();
-    $definition['class'] = 'Drupal\menu_link_placeholder\Plugin\Menu\MenuLinkContent';
-    $definition['menu_name'] = $this->getMenuName();
-
-    if ($url_object = $this->getUrlObject()) {
-      $definition['url'] = NULL;
-      $definition['route_name'] = NULL;
-      $definition['route_parameters'] = [];
-      if (!$url_object->isRouted()) {
-        $definition['url'] = $url_object->getUri();
-      }
-      else {
-        $definition['route_name'] = $url_object->getRouteName();
-        $definition['route_parameters'] = $url_object->getRouteParameters();
-      }
-      $definition['options'] = $url_object->getOptions();
-    }
-
-    // Empty menu link.
-    else {
-      $definition['url'] = NULL;
-      $definition['route_name'] = NULL;
-      $definition['route_parameters'] = [];
-    }
-
-    $definition['title'] = $this->getTitle();
-    $definition['description'] = $this->getDescription();
-    $definition['weight'] = $this->getWeight();
-    $definition['id'] = $this->getPluginId();
-    $definition['metadata'] = array('entity_id' => $this->id());
-    $definition['form_class'] = '\Drupal\menu_link_content\Form\MenuLinkContentForm';
-    $definition['enabled'] = $this->isEnabled() ? 1 : 0;
-    $definition['expanded'] = $this->isExpanded() ? 1 : 0;
-    $definition['provider'] = 'menu_link_content';
-    $definition['discovered'] = 0;
-    $definition['parent'] = $this->getParentId();
-
-    return $definition;
   }
 }
