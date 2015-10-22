@@ -1,0 +1,4 @@
+services:
+  menu.menu_link_placeholder_tree_manipulators:
+    class: Drupal\menu_link_placeholder\Menu\MenuLinkPlaceholderMenuLinkTreeManipulators
+    arguments: ['@access_manager', '@current_user', '@entity.query']
