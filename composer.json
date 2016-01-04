@@ -1,0 +1,9 @@
+{
+  "name": "flowconcept/menu_link_placeholder",
+  "description": "This module makes it possible to create a menu item without a link. Forked from http://git.drupal.org/sandbox/danielbeeke/2515610.git",
+  "version": "master",
+  "type": "drupal-module",
+  "license": "GPL-2.0+",
+  "minimum-stability": "dev",
+  "require": { }
+}
